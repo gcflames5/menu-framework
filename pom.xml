@@ -14,11 +14,11 @@
     <distributionManagement>
         <snapshotRepository>
             <id>njay-deployment</id>
-            <url>http://107.170.34.34:8081/nexus/content/repositories/snapshots</url>
+            <url>http://repo.njay.net/content/repositories/snapshots</url>
         </snapshotRepository>
         <repository>
             <id>njay-deployment</id>
-            <url>http://107.170.34.34:8081/nexus/content/repositories/releases</url>
+            <url>http://repo.njay.net/content/repositories/releases</url>
         </repository>
     </distributionManagement>
 
