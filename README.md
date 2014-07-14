@@ -4,6 +4,14 @@ A dynamic and flexible library to handle complex menu hierarchies in bukkit.
 
 [JavaDoc](http://docs.njay.net/menu-framework)
 
+Compilation
+-----------
+
+We use maven to handle our dependencies.
+
+* Install [Maven 3](http://maven.apache.org/download.html)
+* Check out this repo and: `mvn clean install package`
+
 Tutorial
 ========
 
