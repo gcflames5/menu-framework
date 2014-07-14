@@ -83,7 +83,7 @@ public class MenuPlayer {
      *
      * @return the menu currently opened by the player
      */
-    public Menu getActiveMenue() {
+    public Menu getActiveMenu() {
         return menuManager.getCurrentMenu();
     }
 }
