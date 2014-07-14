@@ -1,14 +1,19 @@
 package net.njay.utils;
 
+import com.google.common.base.Splitter;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import net.njay.annotation.ItemStackAnnotation;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Utils for modifying ItemMeta
@@ -95,6 +100,31 @@ public class ItemUtils {
     }
 
     /**
+     * Parse an enchantment from a string.
+     *
+     * @param parse The string to parse the enchantment from.
+     * @return A map of one enchantment and it's corresponding level.
+     */
+    public static Map<Enchantment, Integer> parseEnchantment(String parse) {
+        Map<Enchantment, Integer> result = Maps.newHashMap();
+        int level = 1;
+        List<String> parts = Lists.newArrayList(Splitter.on(":").limit(2).split(parse));
+        Enchantment enchant = Enchantment.getByName(parts.get(0).toUpperCase().replace(" ", "_"));
+        if(enchant == null) {
+            return null;
+        }
+        if(parts.size() > 1) {
+            try {
+                level = Integer.parseInt(parts.get(1));
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+            }
+        }
+        result.put(enchant, level);
+        return result;
+    }
+
+    /**
      * Creates an {@link org.bukkit.inventory.ItemStack} with data from an {@link ItemStackAnnotation}
      *
      * @param annotation Annotation to be converted.
@@ -109,7 +139,14 @@ public class ItemUtils {
         if (!annotation.name().equals("")) meta.setDisplayName(annotation.name());
         String[] emptyArray = {}; // Can't put array initializer's in if's
         if (annotation.lore() != emptyArray) meta.setLore(Arrays.asList(annotation.lore()));
-
+        if (annotation.enchantments() != emptyArray) {
+            for (String enchantment : annotation.enchantments()) {
+                Map.Entry<Enchantment, Integer> parsedEnchantment = parseEnchantment(enchantment).entrySet().iterator().next();
+                Enchantment enchantment1 = parsedEnchantment.getKey();
+                Integer level = parsedEnchantment.getValue();
+                meta.addEnchant(enchantment1, level, true);
+            }
+        }
         stack.setItemMeta(meta);
         return stack;
     }

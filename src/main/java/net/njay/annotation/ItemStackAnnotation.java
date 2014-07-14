@@ -49,4 +49,11 @@ public @interface ItemStackAnnotation {
      */
     short durability() default 0;
 
+    /**
+     * Any enchantments to be applied to the item.
+     *
+     * @return A string representation of an Enchantment (Needs to be parsed)
+     */
+    String[] enchantments() default {};
+
 }
