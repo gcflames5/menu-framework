@@ -78,4 +78,12 @@ public class MenuPlayer {
         menuManager = new MenuManager();
     }
 
+    /**
+     * Get the player's current Menu
+     *
+     * @return the menu currently opened by the player
+     */
+    public Menu getActiveMenue() {
+        return menuManager.getCurrentMenu();
+    }
 }
