@@ -79,4 +79,11 @@ public class MenuManager {
         return this.previousMenu;
     }
 
+    /**
+     * Gets the List of Menus for this MenuManager
+     */
+    public List<Menu> getMenus() {
+        return this.menus;
+    }
+
 }
