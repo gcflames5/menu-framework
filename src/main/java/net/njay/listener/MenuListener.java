@@ -61,7 +61,6 @@ public class MenuListener implements Listener {
         if (!player.getMenuManager().getCurrentMenu().getInventory().getName().equals(e.getInventory().getName())) return;
         MenuInventory menuInventory = player.getMenuManager().getCurrentMenu().getClass().getAnnotation(MenuInventory.class);
         if (menuInventory == null || menuInventory.onClose() == null) return;
-        if (player.getActiveMenu().getInventory() != null && player.getActiveMenu().getInventory().getViewers().contains(e.getPlayer())) return;
         if (menuInventory.onClose() != Menu.class) new MenuOpener(player, menuInventory.onClose());
     }
 
@@ -78,8 +77,9 @@ public class MenuListener implements Listener {
 
         @Override
         public void run() {
-            for (HumanEntity h : player.getActiveMenu().getInventory().getViewers())
+            for (HumanEntity h : player.getActiveMenu().getInventory().getViewers()) {
                 if (h.getName().equalsIgnoreCase(player.getBukkit().getName())) return;
+            }
             player.setActiveMenu(menuClass);
         }
     }
