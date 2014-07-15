@@ -38,7 +38,7 @@ public class MenuManager {
 
     /**
      * Set the instance of a previously opened menu as the current active menu
-     *
+     * <p/>
      * </p>(You must be sure that the menu has previously been opened or else the method does not perform anything)
      *
      * @param clazz Class of the menu that you which to set as the active menus
@@ -47,14 +47,14 @@ public class MenuManager {
         if (hasMenu(clazz)) setActiveMenu(getMenu(clazz));
     }
 
-    private Menu getMenu(Class clazz) {
+    public Menu getMenu(Class clazz) {
         for (Menu m : menus) {
             if (m.getClass().equals(clazz)) return m;
         }
         return null;
     }
 
-    private boolean hasMenu(Class clazz) {
+    public boolean hasMenu(Class clazz) {
         for (Menu m : menus) {
             if (clazz.equals(m.getClass())) return true;
         }
@@ -78,12 +78,4 @@ public class MenuManager {
     public Menu getPreviousMenu() {
         return this.previousMenu;
     }
-
-    /**
-     * Gets the List of Menus for this MenuManager
-     */
-    public List<Menu> getMenus() {
-        return this.menus;
-    }
-
 }
