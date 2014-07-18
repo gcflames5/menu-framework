@@ -80,6 +80,19 @@ player.setActiveMenu(new TestMenu(player.getMenuManager(), null));
 
 Using this method will make use of any custom player manager that you add
 
+
+Add a preprocessor with **@PreProcessor**
+---------
+A preprocessor is a method (or methods) that can modify the inventory upon creation (before it is shown to the player). This frees developers from the restrictions of the **@ItemStackAnnotation**
+
+**Requirements:** The method *must* be *static* and take an *Inventory* as a parameter
+
+```java
+@PreProcessor
+public static void process(Inventory inv){
+  //Modify the inventory
+}
+```
 ----------------
 
 *Feel free to contact me on bukkit [gcflames5](http://dev.bukkit.org/profiles/gcflames5/) if you are confused* 
