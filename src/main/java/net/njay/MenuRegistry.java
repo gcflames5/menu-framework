@@ -3,10 +3,7 @@ package net.njay;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import net.njay.annotation.IgnoreSlots;
-import net.njay.annotation.MenuInventory;
-import net.njay.annotation.MenuItem;
-import net.njay.annotation.NestedMenu;
+import net.njay.annotation.*;
 import net.njay.listener.MenuListener;
 import net.njay.utils.ItemUtils;
 import org.bukkit.Bukkit;
@@ -15,6 +12,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Map;
@@ -22,6 +20,7 @@ import java.util.Map;
 public class MenuRegistry {
 
     private Map<Class<? extends Menu>, List<Method>> loadedMenus = Maps.newHashMap();
+    private Map<Class<? extends Menu>, List<Method>> loadedPreprocessors = Maps.newHashMap();
     private Plugin plugin;
 
     /**
@@ -54,9 +53,12 @@ public class MenuRegistry {
      */
     public void addMenu(Class<? extends Menu> clazz) {
         List<Method> methods = Lists.newArrayList();
+        List<Method> preProcessors = Lists.newArrayList();
         for (Method m : clazz.getDeclaredMethods()) {
             if (m.isAnnotationPresent(MenuItem.class)) {
                 methods.add(m);
+            }else if (m.isAnnotationPresent(PreProcessor.class)){
+                preProcessors.add(m);
             }
         }
 
@@ -70,6 +72,7 @@ public class MenuRegistry {
             }
         }
         loadedMenus.put(clazz, methods);
+        loadedPreprocessors.put(clazz, preProcessors);
     }
 
     /**
@@ -103,6 +106,17 @@ public class MenuRegistry {
                 for (int i = 0; i < ignoreSlots.slots().length; i++) {
                     inv.setItem(ignoreSlots.slots()[i], ItemUtils.annotationToItemStack(ignoreSlots.items()[i]));
                 }
+            }
+        }
+        for (Method m : loadedPreprocessors.get(clazz)){
+            try {
+                m.invoke(null, inv);
+            } catch (IllegalAccessException e) {
+                System.out.println("All @PreProcessor methods must be static!");
+                e.printStackTrace();
+            } catch (InvocationTargetException e) {
+                System.out.println("All @PreProcessor methods must take 1 Inventory as a parameter!");
+                e.printStackTrace();
             }
         }
         return inv;
