@@ -90,7 +90,7 @@ public class MenuRegistry {
      * @param clazz
      * @return
      */
-    public Inventory generateFreshMenu(Class clazz) {
+    public Inventory generateFreshMenu(Menu menu, Class clazz) {
         MenuInventory menuInv = (MenuInventory) clazz.getAnnotation(MenuInventory.class);
         Inventory inv = Bukkit.createInventory(null, menuInv.slots(), menuInv.name());
         for (int i = 0; i < inv.getSize(); i++)
@@ -110,7 +110,7 @@ public class MenuRegistry {
         }
         for (Method m : loadedPreprocessors.get(clazz)){
             try {
-                m.invoke(null, inv);
+                m.invoke(menu, inv);
             } catch (IllegalAccessException e) {
                 System.out.println("All @PreProcessor methods must be static!");
                 e.printStackTrace();
