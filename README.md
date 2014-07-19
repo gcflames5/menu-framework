@@ -14,6 +14,38 @@ We use maven to handle our dependencies.
 
 Tutorial
 ========
+Feel free to refer to [Chester](https://github.com/Plastix/Chester) as example code. 
+
+Add the dependency (only for Maven users)
+----------------------
+The following XML is for you to add to your pom.xml, it is needed for Maven to find the dependency.
+
+```
+<repositories>
+    ...
+    <!-- repository for NJay dependencies -->
+    <repository>
+        <id>njay-repo</id>
+        <url>http://repo.njay.net/content/groups/public</url>
+    </repository>
+    ...
+</repositories>
+```
+Now that Maven can get any depedency from Njay, you must add menu-framework do your dependencies list.
+Please check that the `<version>1.0.9</version>` is at the latest version of Njay to ensure you have all the latest bug fixes and features.
+```
+<dependencies>
+    ...
+    <!-- custom menu framework, available here: https://github.com/gcflames5/menu-framework -->
+    <dependency>
+        <groupId>net.njay</groupId>
+        <artifactId>menu-framework</artifactId>
+        <version>1.0.9</version>
+    </dependency>
+    ...
+</dependencies>
+```
+If you're using an IDE, you may need to reimport your Maven dependencies in order for your IDE to detect the changes in your pom.xml. 
 
 Enable the Framework
 -------------
