@@ -1,6 +1,7 @@
 package net.njay.player;
 
 import net.njay.Menu;
+import net.njay.MenuFramework;
 import net.njay.MenuManager;
 import org.bukkit.entity.Player;
 
@@ -58,6 +59,17 @@ public class MenuPlayer {
      */
     public void setActiveMenu(Menu menu) {
         menuManager.setActiveMenu(menu);
+        getBukkit().openInventory(menuManager.getCurrentMenu().getInventory());
+    }
+
+    /**
+     * Sets a menu instance as the current menu and removes any other instances
+     *
+     * @param menu Menu instance that you which to set as the current menu
+     * @param regenerate Whether or not to regenerate the menu from scratch
+     */
+    public void setActiveMenuAndReplace(Menu menu, boolean regenerate) {
+       menuManager.setActiveMenuAndReplace(menu, regenerate);
         getBukkit().openInventory(menuManager.getCurrentMenu().getInventory());
     }
 

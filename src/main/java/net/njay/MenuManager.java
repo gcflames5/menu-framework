@@ -37,6 +37,22 @@ public class MenuManager {
     }
 
     /**
+     * Sets a menu instance as the current menu and removes any other saved instances
+     *
+     * @param menu Menu instance that you which to set as the current menu
+     * @param regenerate Whether or not to regenerate the menu from scratch
+     */
+    public void setActiveMenuAndReplace(Menu menu, boolean regenerate) {
+        previousMenu = currentMenu;
+        currentMenu = menu;
+        if (regenerate)
+            currentMenu.setInventory(MenuFramework.getRegistry().generateFreshMenu(menu, menu.getClass()));
+        Menu toRemove = getMenu(menu.getClass());
+        if (toRemove != null) menus.remove(toRemove);
+        menus.add(currentMenu);
+    }
+
+    /**
      * Set the instance of a previously opened menu as the current active menu
      * <p/>
      * </p>(You must be sure that the menu has previously been opened or else the method does not perform anything)
